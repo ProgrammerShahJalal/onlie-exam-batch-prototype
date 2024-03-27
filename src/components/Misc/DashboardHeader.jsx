@@ -6,17 +6,18 @@ import {
 } from "@ant-design/icons";
 import { FaUserLarge, FaPencil, FaPowerOff } from "react-icons/fa6";
 import { IoEye } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import logo from "../../assets/images/logo-web.png";
 
 function DashboardHeader({ collapsed, setCollapsed }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    window.location.reload();
+    navigate("/login", { replace: true });
   };
 
   const toggleProfile = () => {
