@@ -4,7 +4,7 @@ import CTALinkButton from "../Misc/CTALinkButton";
 export default function ExamCard() {
   return (
     <div
-      style={{ width: 320, height: 460 }}
+      style={{ width: 340, height: 460 }}
       className="rounded-md border flex flex-col justify-between pb-4"
     >
       <div>

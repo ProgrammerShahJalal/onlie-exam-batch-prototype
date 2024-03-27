@@ -1,13 +1,13 @@
 import { useState } from "react";
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme } from "antd";
-const { Header, Sider, Content } = Layout;
+import { Layout, Menu, theme } from "antd";
+import { Link } from "react-router-dom";
+import MainHeader from "./Misc/MainHeader";
+const { Sider, Content } = Layout;
 
 // eslint-disable-next-line react/prop-types
 const DashboardLayout = ({ children }) => {
@@ -16,8 +16,8 @@ const DashboardLayout = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <div>
-      <div></div>
+    <div className="min-h-screen">
+      <MainHeader collapsed={collapsed} setCollapsed={setCollapsed} />
       <Layout>
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="demo-logo-vertical" />
@@ -29,7 +29,7 @@ const DashboardLayout = ({ children }) => {
               {
                 key: "1",
                 icon: <UserOutlined />,
-                label: "Take Exam",
+                label: <Link to="/">Take an exam</Link>,
               },
               {
                 key: "2",
@@ -45,23 +45,6 @@ const DashboardLayout = ({ children }) => {
           />
         </Sider>
         <Layout>
-          <Header
-            style={{
-              padding: 0,
-              background: colorBgContainer,
-            }}
-          >
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
-            />
-          </Header>
           <Content
             style={{
               margin: "24px 16px",
