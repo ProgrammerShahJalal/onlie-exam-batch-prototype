@@ -6,15 +6,28 @@ import ExamIstructions from "./pages/ExamIstructions.jsx";
 import DashboardLayout from "./components/DashboardLayout.jsx";
 import Home from "./pages/Home.jsx";
 import Exam from "./pages/Exam.jsx";
+import Login from "./pages/Login.jsx";
+import Authentication from "./pages/Authentication.jsx";
+import ProtectedRoute from "./components/Misc/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <DashboardLayout>
-        <Home />
-      </DashboardLayout>
+      <ProtectedRoute>
+        <DashboardLayout>
+          <Home />
+        </DashboardLayout>
+      </ProtectedRoute>
     ),
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/authenticate",
+    element: <Authentication />,
   },
   {
     path: "/exam/instructions",

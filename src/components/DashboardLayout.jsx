@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import { Link } from "react-router-dom";
-import MainHeader from "./Misc/MainHeader";
+import DashboardHeader from "./Misc/DashboardHeader";
 const { Sider, Content } = Layout;
 
 // eslint-disable-next-line react/prop-types
@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }) => {
   } = theme.useToken();
   return (
     <div className="min-h-screen">
-      <MainHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+      <DashboardHeader collapsed={collapsed} setCollapsed={setCollapsed} />
       <Layout>
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="demo-logo-vertical" />
