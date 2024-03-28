@@ -8,17 +8,19 @@ import Home from "./pages/Home.jsx";
 import Exam from "./pages/Exam.jsx";
 import Login from "./pages/Login.jsx";
 import Authentication from "./pages/Authentication.jsx";
-import ProtectedRoute from "./components/Misc/ProtectedRoute.jsx";
+import AuthenticatedRoute from "./components/Misc/AuthenticatedRoute.jsx";
+import TeacherRoute from "./components/Misc/TeacherRoute.jsx";
+import ExamAdd from "./pages/ExamAdd.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute>
+      <AuthenticatedRoute>
         <DashboardLayout>
           <Home />
         </DashboardLayout>
-      </ProtectedRoute>
+      </AuthenticatedRoute>
     ),
   },
   {
@@ -43,6 +45,16 @@ const router = createBrowserRouter([
       <DashboardLayout>
         <Exam />
       </DashboardLayout>
+    ),
+  },
+  {
+    path: "/teacher/exam-add",
+    element: (
+      <TeacherRoute>
+        <DashboardLayout>
+          <ExamAdd />
+        </DashboardLayout>
+      </TeacherRoute>
     ),
   },
 ]);

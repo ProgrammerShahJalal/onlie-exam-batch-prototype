@@ -94,7 +94,7 @@ function DashboardHeader({ collapsed, setCollapsed }) {
                 </p>
                 <p
                   onClick={logout}
-                  className="border border-gray-500 text-gray-500 rounded-full h-10 w-10 flex justify-center items-center cursor-pointer"
+                  className="border border-gray-500 text-gray-500 hover:bg-red-500 hover:text-white hover:border-0 rounded-full h-10 w-10 flex justify-center items-center cursor-pointer"
                 >
                   <FaPowerOff />
                 </p>

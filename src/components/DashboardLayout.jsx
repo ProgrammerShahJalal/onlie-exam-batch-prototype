@@ -1,57 +1,76 @@
 import { useState } from "react";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
+import { FaQuestion, FaPen } from "react-icons/fa6";
+import { GoNote } from "react-icons/go";
 import { Layout, Menu, theme } from "antd";
 import { Link } from "react-router-dom";
 import DashboardHeader from "./Misc/DashboardHeader";
+import { getUserInfo } from "../utility/user";
 const { Sider, Content } = Layout;
 
 // eslint-disable-next-line react/prop-types
 const DashboardLayout = ({ children }) => {
+  const user = getUserInfo();
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const teacherMenuItems = [
+    {
+      key: "1",
+      icon: <GoNote />,
+      label: <Link to="/teacher/exam-add">Add an exam</Link>,
+    },
+    {
+      key: "2",
+      icon: <FaQuestion />,
+      label: <Link to="/teacher/add-question">Add question</Link>,
+    },
+    {
+      key: "3",
+      icon: <FaPen />,
+      label: <Link to="/">Take an exam</Link>,
+    },
+  ];
+
+  const studentMenuItems = [
+    {
+      key: "1",
+      icon: <UserOutlined />,
+      label: <Link to="/">Take an exam</Link>,
+    },
+  ];
   return (
     <div className="min-h-screen">
       <DashboardHeader collapsed={collapsed} setCollapsed={setCollapsed} />
       <Layout>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          className="min-h-screen"
+          style={{ backgroundColor: "#ffffff" }}
+        >
           <div className="demo-logo-vertical" />
           <Menu
-            theme="dark"
+            theme="light"
             mode="inline"
             defaultSelectedKeys={["1"]}
-            items={[
-              {
-                key: "1",
-                icon: <UserOutlined />,
-                label: <Link to="/">Take an exam</Link>,
-              },
-              {
-                key: "2",
-                icon: <VideoCameraOutlined />,
-                label: "nav 2",
-              },
-              {
-                key: "3",
-                icon: <UploadOutlined />,
-                label: "nav 3",
-              },
-            ]}
+            items={
+              user?.role === "teacher" ? teacherMenuItems : studentMenuItems
+            }
           />
         </Sider>
         <Layout>
           <Content
             style={{
               margin: "24px 16px",
-              minHeight: 280,
+              // minHeight: 280,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
+            className="min-h-screen"
           >
             {children}
           </Content>
