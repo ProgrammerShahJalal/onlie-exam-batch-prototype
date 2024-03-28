@@ -19,18 +19,18 @@ const DashboardLayout = ({ children }) => {
   const teacherMenuItems = [
     {
       key: "1",
+      icon: <FaPen />,
+      label: <Link to="/">Take an exam</Link>,
+    },
+    {
+      key: "2",
       icon: <GoNote />,
       label: <Link to="/teacher/exam-add">Add an exam</Link>,
     },
     {
-      key: "2",
+      key: "3",
       icon: <FaQuestion />,
       label: <Link to="/teacher/add-question">Add question</Link>,
-    },
-    {
-      key: "3",
-      icon: <FaPen />,
-      label: <Link to="/">Take an exam</Link>,
     },
   ];
 
@@ -50,7 +50,7 @@ const DashboardLayout = ({ children }) => {
           collapsible
           collapsed={collapsed}
           className="min-h-screen"
-          style={{ backgroundColor: "#ffffff" }}
+          style={{ backgroundColor: "#ffffff", marginTop: "64px" }}
         >
           <div className="demo-logo-vertical" />
           <Menu
@@ -66,6 +66,7 @@ const DashboardLayout = ({ children }) => {
           <Content
             style={{
               margin: "24px 16px",
+              marginTop: "64px",
               // minHeight: 280,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,

@@ -36,8 +36,8 @@ function ExamAdd() {
         time: formData.startTime,
       },
       end: {
-        date: formData.startDate,
-        time: formData.startTime,
+        date: formData.endDate,
+        time: formData.endTime,
       },
       is_live: formData.isLive,
       total_question: formData.totalQuestion,

@@ -32,7 +32,7 @@ const router = createBrowserRouter([
     element: <Authentication />,
   },
   {
-    path: "/exam/instructions",
+    path: "/exam/instructions/:examId",
     element: (
       <DashboardLayout>
         <ExamIstructions />

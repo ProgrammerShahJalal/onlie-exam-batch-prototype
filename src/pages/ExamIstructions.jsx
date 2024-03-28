@@ -1,11 +1,36 @@
 import CTALinkButton from "../components/Misc/CTALinkButton";
 import ExamInfoTitle from "../components/Exam/ExamInfoTitle";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function ExamIstructions() {
+  let { examId } = useParams();
+  const [exam, setExam] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+
+  const handleLanguageChange = (event) => {
+    setSelectedLanguage(event.target.value);
+  };
+
+  useEffect(() => {
+    const fetchExam = async () => {
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}/exams/${examId}`
+        );
+        setExam(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchExam();
+  }, [examId]);
+
   const questionMarkDuration = {
-    noOfQuestions: 15,
-    totalMark: 15,
-    durationInMinutes: 15,
+    noOfQuestions: exam?.total_question,
+    totalMark: exam?.total_mark,
+    durationInMinutes: exam?.duration_in_minutes,
   };
   return (
     <div>
@@ -15,7 +40,7 @@ function ExamIstructions() {
           info={questionMarkDuration}
         />
       </div>
-      <div className="pt-4">
+      <div className="pt-4 px-4">
         <h3 className="text-2xl  pb-6 font-semibold text-center border-b">
           পরীক্ষার্থীদের জন্য নির্দেশাবলি
         </h3>
@@ -38,7 +63,7 @@ function ExamIstructions() {
           </div>
         </div>
       </div>
-      <div className="mt-8">
+      <div className="mt-8 px-4">
         <h3 className="text-2xl  pb-6 font-semibold text-center border-b">
           Instructions for the examinees
         </h3>
@@ -64,15 +89,27 @@ function ExamIstructions() {
         </div>
       </div>
       <div className="mt-8 flex flex-col gap-6 justify-center items-center">
-        <select name="" id="" className="w-96 pl-4 py-2 border text-base">
-          <option value="" disabled>
-            Select Version
-          </option>
-          <option value="bangla">Bangla</option>
-          <option value="english">English</option>
-        </select>
-        <div className="">
-          <CTALinkButton link="/exam/start">Start Exam</CTALinkButton>
+        <form>
+          <select
+            value={selectedLanguage}
+            onChange={handleLanguageChange}
+            className="w-96 pl-4 py-2 border text-base"
+          >
+            <option value="" disabled>
+              Select Version
+            </option>
+            <option value="bangla">Bangla</option>
+            <option value="english">English</option>
+          </select>
+        </form>
+        <div className="mb-8">
+          <CTALinkButton
+            link={`/exam/start?examId=${exam?._id}&language=${
+              selectedLanguage || "bangla"
+            }`}
+          >
+            Start Exam
+          </CTALinkButton>
         </div>
       </div>
     </div>

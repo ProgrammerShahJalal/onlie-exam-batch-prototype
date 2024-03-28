@@ -47,7 +47,7 @@ function ExamTimer({ minutes }) {
   };
 
   return (
-    <div className="bg-gray-700 pt-3 pb-2 my-4 flex flex-col justify-center items-center rounded-lg">
+    <div className="min-w-[200px] bg-gray-700 pt-3 pb-2 my-4 flex flex-col justify-center items-center rounded-lg">
       <div className="grid grid-cols-2 items-center justify-center">
         <p className="text-white text-xl">Remaining:&nbsp;</p>
         <div

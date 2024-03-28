@@ -44,7 +44,7 @@ function DashboardHeader({ collapsed, setCollapsed }) {
   }, []);
 
   return (
-    <div className="flex justify-between items-center shadow-lg px-6">
+    <div className="flex justify-between items-center shadow-lg px-6 fixed top-0 left-0 right-0 bg-white z-50">
       <div className="flex items-center">
         <Link to="/">
           <img src={logo} alt="Logo" className="h-10 w-20" />
@@ -73,7 +73,7 @@ function DashboardHeader({ collapsed, setCollapsed }) {
           </button>
           {isProfileOpen && (
             <div
-              className="absolute top-10 right-0 w-64 shadow-lg transition-all duration-300"
+              className="absolute top-10 right-0 w-64 z-50 shadow-lg transition-all duration-300"
               onClick={handleContentClick}
             >
               <div className="bg-[#efefef] flex justify-center items-center py-4">
@@ -81,11 +81,11 @@ function DashboardHeader({ collapsed, setCollapsed }) {
                   <FaUserLarge className="text-5xl" />
                 </p>
               </div>
-              <div className="flex flex-col justify-center items-center gap-y-1 py-4">
+              <div className="flex flex-col justify-center items-center gap-y-1 py-4 bg-white">
                 <p className="text-sm">Ahmad Ashab</p>
                 <p className="text-sm">1735616</p>
               </div>
-              <div className="pb-10 pt-1  px-10 flex justify-between">
+              <div className="pb-10 pt-1  px-10 flex justify-between bg-white">
                 <p className="border border-gray-500 text-gray-500 rounded-full h-10 w-10 flex justify-center items-center cursor-pointer">
                   <FaPencil />
                 </p>
