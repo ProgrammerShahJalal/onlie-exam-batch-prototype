@@ -11,7 +11,7 @@ export default function ExamCard({ exam }) {
   return (
     <div
       style={{ width: 350, height: 460 }}
-      className="rounded-md border flex flex-col justify-between pb-4"
+      className="bg-white rounded-md border flex flex-col justify-between pb-4 mb-6"
     >
       <div>
         <div className="bg-[#efefef] px-4">
@@ -54,7 +54,7 @@ export default function ExamCard({ exam }) {
           </div>
         </div>
       </div>
-      <div className="text-center">
+      <div className=" text-center">
         <p className="text-blue-600 mb-4">
           You haven&apos;t taken the exam yet
         </p>

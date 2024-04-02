@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function ExamAdd() {
   const [formData, setFormData] = useState({
@@ -68,8 +67,11 @@ function ExamAdd() {
     });
   };
   return (
-    <div className="px-4 py-8">
-      <h2 className="text-2xl text-center font-semibold uppercase">Add Exam</h2>
+    <div className="px-4 py-8 m-6 bg-white rounded-lg">
+      <h2 className="text-2xl text-center font-semibold uppercase mb-8">
+        Add Exam
+      </h2>
+
       <form onSubmit={handleAddExam}>
         <div className="mb-4">
           <label htmlFor="title" className="block mb-1">
@@ -230,7 +232,6 @@ function ExamAdd() {
           Add Exam
         </button>
       </form>
-      <ToastContainer />
     </div>
   );
 }

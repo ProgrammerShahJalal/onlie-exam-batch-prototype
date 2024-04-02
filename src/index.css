@@ -15,3 +15,7 @@ h5,
 h6 {
   @apply text-[#333333];
 }
+
+mjx-mfrac {
+  font-size: 12px;
+}

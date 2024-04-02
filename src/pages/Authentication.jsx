@@ -42,7 +42,7 @@ function Authentication() {
   return (
     <div className="min-h-screen">
       <MainHeader />
-      <div className="bg-[#99569B] flex justify-between items-center px-[200px]">
+      <div className="bg-[#99569B] flex justify-between gap-x-16 items-center px-[200px]">
         <div className="w-5/12">
           <iframe
             width="440"

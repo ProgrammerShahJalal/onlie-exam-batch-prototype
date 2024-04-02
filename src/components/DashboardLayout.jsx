@@ -6,6 +6,9 @@ import { Layout, Menu, theme } from "antd";
 import { Link } from "react-router-dom";
 import DashboardHeader from "./Misc/DashboardHeader";
 import { getUserInfo } from "../utility/user";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { MathJaxContext } from "better-react-mathjax";
 const { Sider, Content } = Layout;
 
 // eslint-disable-next-line react/prop-types
@@ -13,7 +16,7 @@ const DashboardLayout = ({ children }) => {
   const user = getUserInfo();
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { borderRadiusLG },
   } = theme.useToken();
 
   const teacherMenuItems = [
@@ -30,7 +33,7 @@ const DashboardLayout = ({ children }) => {
     {
       key: "3",
       icon: <FaQuestion />,
-      label: <Link to="/teacher/add-question">Add question</Link>,
+      label: <Link to="/teacher/question-add">Add question</Link>,
     },
   ];
 
@@ -42,42 +45,54 @@ const DashboardLayout = ({ children }) => {
     },
   ];
   return (
-    <div className="min-h-screen">
-      <DashboardHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-      <Layout>
-        <Sider
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
-          className="min-h-screen"
-          style={{ backgroundColor: "#ffffff", marginTop: "64px" }}
-        >
-          <div className="demo-logo-vertical" />
-          <Menu
-            theme="light"
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            items={
-              user?.role === "teacher" ? teacherMenuItems : studentMenuItems
-            }
-          />
-        </Sider>
+    <MathJaxContext>
+      <div className="min-h-screen">
+        <DashboardHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <Layout>
-          <Content
-            style={{
-              margin: "24px 16px",
-              marginTop: "64px",
-              // minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
+          <Sider
+            trigger={null}
+            collapsible
+            collapsed={collapsed}
             className="min-h-screen"
+            style={{
+              backgroundColor: "#ffffff",
+              marginTop: "64px",
+              position: "fixed",
+              top: 0,
+              left: 0,
+              borderRight: "1px solid #e2e8f0",
+            }}
           >
-            {children}
-          </Content>
+            <div className="demo-logo-vertical" />
+            <Menu
+              theme="light"
+              mode="inline"
+              defaultSelectedKeys={["1"]}
+              items={
+                user?.role === "teacher" ? teacherMenuItems : studentMenuItems
+              }
+              style={{ width: "200px" }}
+            />
+          </Sider>
+          <Layout>
+            <Content
+              style={{
+                // margin: "24px 16px",
+                marginLeft: "200px",
+                marginTop: "64px",
+                // minHeight: 280,
+                background: "#D8CED8",
+                borderRadius: borderRadiusLG,
+              }}
+              className="min-h-screen"
+            >
+              {children}
+              <ToastContainer />
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
-    </div>
+      </div>
+    </MathJaxContext>
   );
 };
 export default DashboardLayout;

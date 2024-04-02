@@ -7,10 +7,10 @@ import axios from "axios";
 function ExamIstructions() {
   let { examId } = useParams();
   const [exam, setExam] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedVersion, setSelectedVersion] = useState("");
 
   const handleLanguageChange = (event) => {
-    setSelectedLanguage(event.target.value);
+    setSelectedVersion(event.target.value);
   };
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function ExamIstructions() {
     durationInMinutes: exam?.duration_in_minutes,
   };
   return (
-    <div>
+    <div className="bg-white">
       <div className="border-b py-4 bg-[#f7f7f7]">
         <ExamInfoTitle
           title="HSC Daily MCQ Live Exam C-19"
@@ -91,7 +91,7 @@ function ExamIstructions() {
       <div className="mt-8 flex flex-col gap-6 justify-center items-center">
         <form>
           <select
-            value={selectedLanguage}
+            value={selectedVersion}
             onChange={handleLanguageChange}
             className="w-96 pl-4 py-2 border text-base"
           >
@@ -104,8 +104,8 @@ function ExamIstructions() {
         </form>
         <div className="mb-8">
           <CTALinkButton
-            link={`/exam/start?examId=${exam?._id}&language=${
-              selectedLanguage || "bangla"
+            link={`/exam/start?examId=${exam?._id}&version=${
+              selectedVersion || "bangla"
             }`}
           >
             Start Exam
