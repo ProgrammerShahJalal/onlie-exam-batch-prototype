@@ -1,6 +1,6 @@
 import McqQuestionOption from "./McqQuestionOption";
 
-function McqQuestionOptions({ options, selectedOption, onSelect }) {
+function McqQuestionOptions({ options, selectedOption, onSelect, version }) {
   const handleOptionSelect = (optionName) => {
     onSelect(optionName);
   };
@@ -13,6 +13,7 @@ function McqQuestionOptions({ options, selectedOption, onSelect }) {
           option={option}
           selectedOption={selectedOption}
           handleOptionSelect={handleOptionSelect}
+          version={version}
         />
       ))}
     </div>

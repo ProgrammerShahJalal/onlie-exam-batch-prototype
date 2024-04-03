@@ -12,6 +12,7 @@ import AuthenticatedRoute from "./components/Misc/AuthenticatedRoute.jsx";
 import TeacherRoute from "./components/Misc/TeacherRoute.jsx";
 import ExamAdd from "./pages/ExamAdd.jsx";
 import QuestionAdd from "./pages/QuestionAdd.jsx";
+import ExamResult from "./pages/ExamResult.jsx";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,14 @@ const router = createBrowserRouter([
     element: (
       <DashboardLayout>
         <Exam />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: "/exam/result",
+    element: (
+      <DashboardLayout>
+        <ExamResult />
       </DashboardLayout>
     ),
   },

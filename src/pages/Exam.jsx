@@ -1,13 +1,14 @@
-import { useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import ExamInfoTitle from "../components/Exam/ExamInfoTitle";
 import ExamTimer from "../components/Exam/ExamTimer";
 import SingleQuestion from "../components/Question/SingleQuestion";
-// import { getUserInfo } from "../utility/user";
+import { getUserInfo } from "../utility/user";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Exam() {
-  // const userResistrationNo = getUserInfo()?.registration_no;
+  const userResistrationNo = getUserInfo()?.registration_no;
   const [searchParams] = useSearchParams();
   const examId = searchParams.get("examId");
   const version = searchParams.get("version");
@@ -84,12 +85,26 @@ function Exam() {
     e.preventDefault();
     try {
       // Store selected options
-      // await axios.post(`${import.meta.env.VITE_API_URL}/submit`, {
-      //   examId,
-      //   responses: selectedOptions,
-      // });
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/exam-submissions`,
+        {
+          registration_no: userResistrationNo,
+          exam_id: examId,
+          version,
+          submission: selectedOptions,
+        }
+      );
+      if (data) {
+        toast.success("Exam successfully  submitted!");
+
+        window.location.replace(
+          `/exam/result?examId=${examId}&regNo=${userResistrationNo}&version=${version}`
+        );
+        return <Navigate to="/" replace={true} />;
+      } else {
+        toast.error("Not submitted. Something went wrong!");
+      }
       setFormSubmitted(true);
-      console.log(selectedOptions);
     } catch (error) {
       console.log(error);
     }
