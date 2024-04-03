@@ -1,13 +1,34 @@
 import LiveBanner from "../Misc/LiveBanner";
 import CTALinkButton from "../Misc/CTALinkButton";
 import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { getUserInfo } from "../../utility/user";
 
 export default function ExamCard({ exam }) {
-  // console.log(exam);
+  const registration_no = getUserInfo().registration_no;
   const formattedStartDate = dayjs(exam?.start?.date).format("DD MMM, YYYY");
   const formattedEndDate = dayjs(exam?.end?.date).format("DD MMM, YYYY");
   const formattedStartTime = dayjs(exam?.start?.time, "HH:mm").format("h:mm A");
   const formattedEndTime = dayjs(exam?.end?.time, "HH:mm").format("h:mm A");
+
+  const [examGaveAlready, setExamGaveAlready] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get(
+        `${
+          import.meta.env.VITE_API_URL
+        }/exam-submissions/is-submitted/registration_no/${registration_no}/exam/${
+          exam?._id
+        }`
+      );
+      setExamGaveAlready(data?.status);
+    };
+    fetchData();
+  }, [exam?._id, registration_no]);
+
+  console.log(examGaveAlready);
   return (
     <div
       style={{ width: 350, height: 460 }}
@@ -56,11 +77,22 @@ export default function ExamCard({ exam }) {
       </div>
       <div className=" text-center">
         <p className="text-blue-600 mb-4">
-          You haven&apos;t taken the exam yet
+          {!examGaveAlready
+            ? "You haven't taken the exam yet"
+            : "You have already taken this exam"}
         </p>
-        <CTALinkButton link={`/exam/instructions/${exam?._id}`}>
-          Take Exam
-        </CTALinkButton>
+        {!examGaveAlready ? (
+          <CTALinkButton link={`/exam/instructions/${exam?._id}`}>
+            Take Exam
+          </CTALinkButton>
+        ) : (
+          <button
+            className="rounded-full bg-gray-600 hover:text-white text-white text-base font-medium px-10 py-2"
+            disabled
+          >
+            Already Taken
+          </button>
+        )}
       </div>
     </div>
   );

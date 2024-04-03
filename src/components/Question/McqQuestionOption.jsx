@@ -34,7 +34,7 @@ const McqQuestionOption = ({
         <div
           className={`w-8 h-8 text-base text-gray-500 font-medium uppercase border rounded-full flex items-center justify-center border-gray-500 ${
             !isChecked ? "hover:bg-gray-200" : "hover:bg-gray-500"
-          } ${isChecked ? "bg-gray-500 text-white" : ""}`}
+          } ${isChecked ? "bg-gray-700 text-white" : ""}`}
         >
           {option.name}
         </div>

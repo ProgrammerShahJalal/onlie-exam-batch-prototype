@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import SingleQuestionSubmission from "../components/Question/SingleQuestionSubmission";
 
 function ExamResult() {
   const [searchParams] = useSearchParams();
@@ -10,11 +11,12 @@ function ExamResult() {
 
   const [exam, setExam] = useState(null);
   const [questions, setQuestions] = useState(null);
+  const [updatedQuestions, setUpdatedQuestions] = useState(null);
   const [submission, setSubmission] = useState(null);
-  const [markObtained, setMarkObtained] = useState(0);
+  const [totalSubmitted, setTotalSubmitted] = useState(0);
   const [totalCorrect, setTotalCorrect] = useState(0);
   const [totalWrong, setTotalWrong] = useState(0);
-  const [totalSubmitted, setTotalSubmitted] = useState(0);
+  const [markObtained, setMarkObtained] = useState(0);
 
   useEffect(() => {
     const fetchExam = async () => {
@@ -53,7 +55,7 @@ function ExamResult() {
     let total_correct = 0;
     let total_wrong = 0;
     if (questions && questions?.length > 0 && submission) {
-      questions.forEach((question) => {
+      const updatedQuestions = questions.map((question) => {
         const submitted_answer = submission.submission[question?._id];
 
         const is_submitted = Boolean(submitted_answer);
@@ -74,7 +76,15 @@ function ExamResult() {
           total_wrong += 1;
           marks_obtained -= exam?.per_wrong_ans_cut_mark;
         }
+
+        return {
+          ...question,
+          is_submitted,
+          submitted_answer: submitted_answer || null,
+          is_correct,
+        };
       });
+      setUpdatedQuestions(updatedQuestions);
       setTotalSubmitted(total_submitted);
       setTotalCorrect(total_correct);
       setTotalWrong(total_wrong);
@@ -88,7 +98,7 @@ function ExamResult() {
         <span className="font-bold">Success!</span> Exam answer(s) are
         successfully submitted.
       </p>
-      <div className="mx-4">
+      <div className="mx-4 mb-8">
         <div className="bg-white rounded-lg">
           <h2 className="font-semibold text-center text-4xl text-green-500 py-4 border-b border-gray-300">
             Analysis Report
@@ -105,6 +115,17 @@ function ExamResult() {
             {exam?.total_question - totalSubmitted}&#x29;
           </p>
         </div>
+      </div>
+      <div className="mx-4 flex flex-col gap-4">
+        {updatedQuestions &&
+          updatedQuestions?.length > 0 &&
+          updatedQuestions?.map((updatedQuestion) => (
+            <SingleQuestionSubmission
+              key={updatedQuestion._id}
+              question={updatedQuestion}
+              version={version}
+            />
+          ))}
       </div>
     </div>
   );
