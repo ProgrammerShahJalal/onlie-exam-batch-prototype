@@ -6,6 +6,7 @@ import { getUserInfo } from "../utility/user";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Spin } from "antd";
 
 function Exam() {
   const userResistrationNo = getUserInfo()?.registration_no;
@@ -13,6 +14,7 @@ function Exam() {
   const examId = searchParams.get("examId");
   const version = searchParams.get("version");
 
+  const [loading, setLoading] = useState(false);
   const [exam, setExam] = useState(null);
   const [questions, setQuestions] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -20,6 +22,7 @@ function Exam() {
   const timerRef = useRef(null);
 
   useEffect(() => {
+    setLoading(true);
     const fetchExam = async () => {
       try {
         const { data } = await axios.get(
@@ -28,17 +31,26 @@ function Exam() {
         setExam(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchExam();
   }, [examId]);
 
   useEffect(() => {
+    setLoading(true);
     const fetchQuestions = async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/exams/${examId}/questions/${version}`
-      );
-      setQuestions(data);
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}/exams/${examId}/questions/${version}`
+        );
+        setQuestions(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchQuestions();
   }, [examId, version]);
@@ -112,6 +124,11 @@ function Exam() {
 
   return (
     <div className="m-6">
+      {loading && (
+        <div className="w-full h-48 flex justify-center items-center">
+          <Spin size="large" />
+        </div>
+      )}
       <div className="py-4 bg-white rounded-lg mb-4 shadow">
         <ExamInfoTitle
           title="HSC Daily MCQ Live Exam C-19"
