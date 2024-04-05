@@ -29,3 +29,21 @@ mjx-mfrac {
   background-color: green;
   color: white;
 }
+
+@keyframes timer-alert {
+  0% {
+    color: red;
+  }
+  50% {
+    opacity: 0;
+    color: white;
+  }
+  100% {
+    color: red;
+    opacity: 1;
+  }
+}
+
+.timer-alert-animation {
+  animation: timer-alert 0.6s ease-in-out infinite;
+}

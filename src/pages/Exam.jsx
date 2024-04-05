@@ -3,7 +3,7 @@ import ExamInfoTitle from "../components/Exam/ExamInfoTitle";
 import ExamTimer from "../components/Exam/ExamTimer";
 import SingleQuestion from "../components/Question/SingleQuestion";
 import { getUserInfo } from "../utility/user";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Modal, Spin } from "antd";
@@ -21,6 +21,7 @@ function Exam() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const timerRef = useRef(null);
+  const [isTimerFinished, setIsTimerFinished] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -99,7 +100,7 @@ function Exam() {
     setIsModalOpen(true);
   };
 
-  const handleConfirm = async () => {
+  const handleConfirm = useCallback(async () => {
     try {
       // Store selected options
       const { data } = await axios.post(
@@ -125,7 +126,13 @@ function Exam() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [userResistrationNo, examId, version, selectedOptions]);
+
+  useEffect(() => {
+    if (isTimerFinished) {
+      handleConfirm();
+    }
+  }, [isTimerFinished, handleConfirm]);
 
   return (
     <div className="m-6">
@@ -143,7 +150,10 @@ function Exam() {
       </div>
       <div className="sticky top-16 z-10 bg-white rounded-lg">
         {exam && !formSubmitted && (
-          <ExamTimer minutes={questionMarkDuration.durationInMinutes} />
+          <ExamTimer
+            minutes={questionMarkDuration.durationInMinutes}
+            setIsTimerFinished={setIsTimerFinished}
+          />
         )}
       </div>
       <form onSubmit={handleSubmit}>

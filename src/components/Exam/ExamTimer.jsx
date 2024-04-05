@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
-function ExamTimer({ minutes }) {
+function ExamTimer({ minutes, setIsTimerFinished }) {
   const [currentTime, setCurrentTime] = useState("");
   const [addedTime, setAddedTime] = useState("");
   const [remainingTime, setRemainingTime] = useState(minutes * 60); // Convert minutes to seconds
+
   const [isLastMinute, setIsLastMinute] = useState(false);
 
   useEffect(() => {
@@ -34,8 +35,9 @@ function ExamTimer({ minutes }) {
   }, [minutes]);
 
   useEffect(() => {
-    setIsLastMinute(remainingTime <= 60);
-  }, [remainingTime]);
+    if (remainingTime === 0) setIsTimerFinished(true);
+    if (remainingTime === 60) setIsLastMinute(true);
+  }, [remainingTime, setIsTimerFinished]);
 
   const formatTime = (time) => {
     const hours = Math.floor(time / 3600);
@@ -49,10 +51,10 @@ function ExamTimer({ minutes }) {
   return (
     <div className="min-w-[200px] bg-gray-700 pt-3 pb-2 my-4 flex flex-col justify-center items-center rounded-lg">
       <div className="grid grid-cols-2 items-center justify-center">
-        <p className="text-white text-xl">Remaining:&nbsp;</p>
+        <p className={`text-white text-xl`}>Remaining:&nbsp;</p>
         <div
-          className={`font-semibold text-2xl timer ${
-            isLastMinute ? "text-red-500" : "text-white"
+          className={`font-semibold text-2xl ${
+            isLastMinute ? "timer-alert-animation" : "text-white"
           }`}
         >
           {formatTime(remainingTime)}

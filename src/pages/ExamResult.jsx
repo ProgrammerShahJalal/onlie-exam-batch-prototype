@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import SingleQuestionSubmission from "../components/Question/SingleQuestionSubmission";
+import { toast } from "react-toastify";
 
 function ExamResult() {
   const [searchParams] = useSearchParams();
@@ -91,6 +92,10 @@ function ExamResult() {
       setMarkObtained(marks_obtained);
     }
   }, [exam, questions, submission]);
+
+  useEffect(() => {
+    toast.success("Result fetched successfully!");
+  }, []);
 
   return (
     <div className="mb-8">
