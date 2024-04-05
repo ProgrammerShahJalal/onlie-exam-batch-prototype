@@ -6,7 +6,7 @@ import { getUserInfo } from "../utility/user";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Spin } from "antd";
+import { Modal, Spin } from "antd";
 
 function Exam() {
   const userResistrationNo = getUserInfo()?.registration_no;
@@ -19,6 +19,7 @@ function Exam() {
   const [questions, setQuestions] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -95,6 +96,10 @@ function Exam() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsModalOpen(true);
+  };
+
+  const handleConfirm = async () => {
     try {
       // Store selected options
       const { data } = await axios.post(
@@ -107,7 +112,7 @@ function Exam() {
         }
       );
       if (data) {
-        toast.success("Exam successfully  submitted!");
+        toast.success("Submitted!");
 
         window.location.replace(
           `/exam/result?examId=${examId}&regNo=${userResistrationNo}&version=${version}`
@@ -164,6 +169,16 @@ function Exam() {
           </button>
         </div>
       </form>
+      <Modal
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        onOk={handleConfirm}
+      >
+        {/* Customize the alert message here */}
+        <p className="font-medium">
+          The exam can be given only once. Are you sure you want to submit?
+        </p>
+      </Modal>
     </div>
   );
 }

@@ -93,7 +93,7 @@ function ExamResult() {
   }, [exam, questions, submission]);
 
   return (
-    <div>
+    <div className="mb-8">
       <p className="bg-green-200 py-2 text-center text-base mt-4 mb-10">
         <span className="font-bold">Success!</span> Exam answer(s) are
         successfully submitted.

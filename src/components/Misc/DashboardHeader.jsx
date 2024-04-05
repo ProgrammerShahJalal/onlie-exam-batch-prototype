@@ -9,10 +9,16 @@ import { IoEye } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import logo from "../../assets/images/logo-web.png";
+import axios from "axios";
+import { getUserInfo } from "../../utility/user";
 
 function DashboardHeader({ collapsed, setCollapsed }) {
+  const userRegistrationNo = getUserInfo().registration_no;
+
+  const [user, setUser] = useState(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
+
   const navigate = useNavigate();
 
   const logout = () => {
@@ -42,6 +48,18 @@ function DashboardHeader({ collapsed, setCollapsed }) {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await axios.get(
+        `${
+          import.meta.env.VITE_API_URL
+        }/users/registration-no/${userRegistrationNo}`
+      );
+      setUser(data);
+    };
+    fetchUser();
+  }, [userRegistrationNo]);
 
   return (
     <div className="flex justify-between items-center shadow-lg px-6 fixed top-0 left-0 right-0 bg-white z-50">
@@ -82,8 +100,8 @@ function DashboardHeader({ collapsed, setCollapsed }) {
                 </p>
               </div>
               <div className="flex flex-col justify-center items-center gap-y-1 py-4 bg-white">
-                <p className="text-sm">Ahmad Ashab</p>
-                <p className="text-sm">1735616</p>
+                <p className="text-sm">{user?.name}</p>
+                <p className="text-sm">{user?.registration_no}</p>
               </div>
               <div className="pb-10 pt-1  px-10 flex justify-between bg-white">
                 <p className="border border-gray-500 text-gray-500 rounded-full h-10 w-10 flex justify-center items-center cursor-pointer">

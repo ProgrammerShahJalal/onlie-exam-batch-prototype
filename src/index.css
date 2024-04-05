@@ -19,3 +19,13 @@ h6 {
 mjx-mfrac {
   font-size: 12px;
 }
+
+.ant-modal-footer button:first-of-type {
+  background-color: #333333;
+  color: white;
+}
+
+.ant-modal-footer button:last-of-type {
+  background-color: green;
+  color: white;
+}

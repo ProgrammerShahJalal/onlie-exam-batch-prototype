@@ -42,7 +42,7 @@ function SingleQuestionSubmission({ question, version }) {
         />
       </div>
       {(question?.right_answer?.bangla || question?.right_answer?.english) && (
-        <div className="mt-2 p-2 bg-emerald-100 border-2 border-green-700 text-lg">
+        <div className="mt-2 p-2 bg-[#D7F3E4] border-2 border-green-600 text-lg rounded">
           {version === "bangla" ? (
             <div>
               <h5 className="font-bold">Solution:</h5>

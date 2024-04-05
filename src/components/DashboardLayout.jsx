@@ -2,7 +2,7 @@ import { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { FaQuestion, FaPen } from "react-icons/fa6";
 import { GoNote } from "react-icons/go";
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
 import DashboardHeader from "./Misc/DashboardHeader";
 import { getUserInfo } from "../utility/user";
@@ -11,13 +11,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { MathJaxContext } from "better-react-mathjax";
 const { Sider, Content } = Layout;
 
-// eslint-disable-next-line react/prop-types
 const DashboardLayout = ({ children }) => {
   const user = getUserInfo();
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { borderRadiusLG },
-  } = theme.useToken();
 
   const teacherMenuItems = [
     {
@@ -82,7 +78,6 @@ const DashboardLayout = ({ children }) => {
                 marginTop: "64px",
                 // minHeight: 280,
                 background: "#D8CED8",
-                borderRadius: borderRadiusLG,
               }}
               className="min-h-screen"
             >

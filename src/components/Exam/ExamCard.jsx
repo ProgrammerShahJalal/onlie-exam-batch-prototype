@@ -6,7 +6,7 @@ import axios from "axios";
 import { getUserInfo } from "../../utility/user";
 
 export default function ExamCard({ exam }) {
-  const registration_no = getUserInfo().registration_no;
+  const userRegistrationNo = getUserInfo().registration_no;
   const formattedStartDate = dayjs(exam?.start?.date).format("DD MMM, YYYY");
   const formattedEndDate = dayjs(exam?.end?.date).format("DD MMM, YYYY");
   const formattedStartTime = dayjs(exam?.start?.time, "HH:mm").format("h:mm A");
@@ -19,16 +19,15 @@ export default function ExamCard({ exam }) {
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_URL
-        }/exam-submissions/is-submitted/registration_no/${registration_no}/exam/${
+        }/exam-submissions/is-submitted/registration_no/${userRegistrationNo}/exam/${
           exam?._id
         }`
       );
-      setExamGaveAlready(data?.status);
+      setExamGaveAlready(data);
     };
     fetchData();
-  }, [exam?._id, registration_no]);
+  }, [exam?._id, userRegistrationNo]);
 
-  console.log(examGaveAlready);
   return (
     <div
       style={{ width: 350, height: 460 }}
@@ -77,21 +76,21 @@ export default function ExamCard({ exam }) {
       </div>
       <div className=" text-center">
         <p className="text-blue-600 mb-4">
-          {!examGaveAlready
+          {!examGaveAlready?.status
             ? "You haven't taken the exam yet"
             : "You have already taken this exam"}
         </p>
-        {!examGaveAlready ? (
+        {!examGaveAlready?.status ? (
           <CTALinkButton link={`/exam/instructions/${exam?._id}`}>
             Take Exam
           </CTALinkButton>
         ) : (
-          <button
-            className="rounded-full bg-gray-600 hover:text-white text-white text-base font-medium px-10 py-2"
-            disabled
+          <CTALinkButton
+            link={`/exam/result?examId=${exam?._id}&regNo=${userRegistrationNo}&version=${examGaveAlready?.version}`}
+            classes="bg-zinc-700"
           >
-            Already Taken
-          </button>
+            View Result
+          </CTALinkButton>
         )}
       </div>
     </div>
