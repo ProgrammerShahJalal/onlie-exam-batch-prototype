@@ -42,13 +42,22 @@ function QuestionAdd() {
         }/last-question-serial`
       );
 
+      const totalQuestionsAdded = exams?.find(
+        (exam) => exam?._id === formData.examId
+      )?.total_question;
+
+      if (totalQuestionsAdded === data?.serial_no)
+        toast.error(
+          "All questions added already for this exam. You can't add more!"
+        );
+
       setFormData((prevData) => ({
         ...prevData,
         serialNo: data?.serial_no + 1,
       }));
     };
     fetchExams();
-  }, [formData.examId]);
+  }, [formData.examId, exams]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -131,11 +140,11 @@ function QuestionAdd() {
         `${import.meta.env.VITE_API_URL}/questions`,
         payload
       );
-
-      if (data) {
+      if (data && !data?.error) {
         toast.success("Question added successfully!");
         setFormData({ ...formDataDefaultValues });
-      } else toast.error("Error adding question!");
+      } else
+        toast.error(`Error adding question! ${data?.error ? data?.error : ""}`);
     } catch (error) {
       toast.error("Error adding question!");
     }

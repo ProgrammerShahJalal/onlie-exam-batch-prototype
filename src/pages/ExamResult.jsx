@@ -94,7 +94,7 @@ function ExamResult() {
   }, [exam, questions, submission]);
 
   useEffect(() => {
-    toast.success("Result fetched successfully!");
+    toast.success("Result created successfully!");
   }, []);
 
   return (
